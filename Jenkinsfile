@@ -34,8 +34,11 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            script {
-                def dockerImage = docker.build(image_repo + ":$BUILD_NUMBER")
+            steps {
+                echo 'Starting to build docker image'
+                script {
+                    def dockerImage = docker.build(image_repo + ":$BUILD_NUMBER")
+                }
             }
         }
     }
