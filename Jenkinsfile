@@ -10,7 +10,7 @@ pipeline {
             steps {
                 sh '''
                     python3 -m venv ~/.login-api
-                    source ~/.login-api/bin/activate
+                    . ~/.login-api/bin/activate
                     pip install --upgrade pip
                     pip install --trusted-host pypi.python.org -r requirements.txt
                    '''
