@@ -15,6 +15,7 @@ mccabe==0.6.1
 mistune==0.8.4
 pylint==2.4.4
 pylint-flask==0.6
+pylint-flask-sqlalchemy==0.2.0
 pylint-plugin-utils==0.6
 pyrsistent==0.16.0
 python-dotenv==0.12.0
