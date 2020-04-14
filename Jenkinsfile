@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+        image_repo = "xwindwolfx/login-api"
+        image_cred = "dockerhub"
+    }
     agent any
     stages {
         stage('Checkout') {
@@ -27,6 +31,11 @@ pipeline {
         stage('Lint Dockerfile') {
             steps {
                 sh 'hadolint Dockerfile'
+            }
+        }
+        stage('Build Docker Image') {
+            script {
+                def dockerImage = docker.build(image_repo + ":$BUILD_NUMBER")
             }
         }
     }
