@@ -1,4 +1,4 @@
-from flask import request, jsonify, abort
+from flask import request, jsonify
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User

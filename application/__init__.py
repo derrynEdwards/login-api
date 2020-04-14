@@ -10,7 +10,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from . import routes
+        from . import routes # pylint: disable=W0611
 
         #Create tables for our models
         db.create_all()
