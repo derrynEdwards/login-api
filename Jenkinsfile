@@ -42,9 +42,13 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push("latest")
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push("latest")
+                    }
+                }
             }
         }
     }
