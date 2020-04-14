@@ -37,7 +37,16 @@ pipeline {
             steps {
                 echo 'Starting to build docker image'
                 script {
-                    def dockerImage = docker.build(image_repo + ":$BUILD_NUMBER")
+                    def dockerImage = docker.build(image_repo)
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                echo 'Pushing Docker Image'
+                script {
+                    dockerImage.push("1.0.$BUILD_NUMBER")
+                    dockerImage.push("latest")
                 }
             }
         }
