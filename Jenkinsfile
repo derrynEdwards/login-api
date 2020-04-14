@@ -3,7 +3,6 @@ pipeline {
         image_repo = "xwindwolfx/login-api"
     }
     agent any
-    def dockerImage
     stages {
         stage('Checkout') {
             steps {
@@ -33,17 +32,11 @@ pipeline {
                 sh 'hadolint Dockerfile'
             }
         }
-        stage('Build Docker Image') {
+        stage('Build and Push Docker Image') {
             steps {
                 echo 'Starting to build docker image'
                 script {
-                    dockerImage = docker.build(image_repo)
-                }
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                script {
+                    def dockerImage = docker.build(image_repo)
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         dockerImage.push("$BUILD_NUMBER")
                         dockerImage.push("latest")
