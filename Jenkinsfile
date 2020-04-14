@@ -36,7 +36,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 echo 'Starting to build docker image'
-                script {
+                withDockerRegistry(image_repo, 'dockerhub') {
                     def dockerImage = docker.build(image_repo)
                     dockerImage.push("1.0.$BUILD_NUMBER")
                     dockerImage.push("lastest")
