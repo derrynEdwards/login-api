@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh '''
                     . ~/.login-api/bin/activate
-                    pylint --disable=R,C *.py application/*.py
+                    pylint --load-plugins pylint_flask --disable=R,C *.py application/*.py
                    '''
             }
         }
