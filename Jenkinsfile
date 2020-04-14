@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Lint Python') {
             steps {
-                pylint --disable=R,C *.py application/*.py
+                sh 'pylint --disable=R,C *.py application/*.py'
             }
         }
     }
