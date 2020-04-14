@@ -1,9 +1,9 @@
 pipeline {
     environment {
         image_repo = "xwindwolfx/login-api"
-        image_cred = "dockerhub"
     }
     agent any
+    def dockerImage
     stages {
         stage('Checkout') {
             steps {
@@ -37,16 +37,14 @@ pipeline {
             steps {
                 echo 'Starting to build docker image'
                 script {
-                    def dockerImage = docker.build(image_repo)
+                    dockerImage = docker.build(image_repo)
                 }
             }
         }
         stage('Push Docker Image') {
-            steps {
-                withDockerRegistry([ credentialsId: "dockerhub" ]) {
-                    dockerImage.push("$BUILD_NUMBER")
-                    dockerImage.push("lastest")
-                }
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push("latest")
             }
         }
     }
