@@ -36,7 +36,7 @@ pipeline {
             steps {
                 withAWS(region:'us-west-2',credentials:'AWS Jenkins') {
                     sh 'echo "Uploading content with AWS creds"'
-                    s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'aws/config/*', bucket:'login-api')
+                    s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'aws/config/', bucket:'login-api')
                 }
             }
         }
