@@ -10,13 +10,5 @@
     {
         "ParameterKey": "InstanceSize",
         "ParameterValue": "t2.medium"
-    },
-    {
-        "ParameterKey": "RoleName",
-        "ParameterValue": "BastionRole"
-    },
-    {
-        "ParameterKey": "ClusterName",
-        "ParameterValue": "LoginAPI"
     }
 ]

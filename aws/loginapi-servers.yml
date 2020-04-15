@@ -20,14 +20,6 @@ Parameters:
     Type: String
     Default: "t2.medium"
 
-  RoleName:
-    Description: Single Parameter containing the IAM Role Name.
-    Type: String
-
-  ClusterName:
-    Description: Single Parameter containing the Kubernetes Cluster Name.
-    Type: String
-
 Resources:
   #Security Groups
   LBSecGroup:
@@ -87,13 +79,19 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          apt-get update
-          apt-get install -y unzip awscli
-          apt-get install -y apache2
-          systemctl start apache2.service
-          systemctl enable apache2.service
-          cd /var/www/html
-          aws s3 sync ${BucketName} .
+          apt update
+          apt install docker.io -y
+          apt install conntrack -y
+          systemctl enable docker
+          systemctl start docker
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+          mv ./kubectl /usr/bin/
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_1.9.1-0_amd64.deb
+          dpkg -i minikube_1.9.1-0_amd64.deb
+          minikube start --driver=none
+          kubectl run loginapi --image=xwindwolfx/login-api:latest --port=80 --labels app=login-api
+          kubectl port-forward loginapi 80:5000
       ImageId: !Ref OSImage
       KeyName: '{{resolve:ssm:EC2KEY:1}}'
       SecurityGroups:
