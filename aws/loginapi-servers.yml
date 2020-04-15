@@ -106,6 +106,7 @@ Resources:
           mv ./kubectl /usr/bin/
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_1.9.1-0_amd64.deb
           dpkg -i minikube_1.9.1-0_amd64.deb
+          export MINIKUBE_HOME=/root/.minikube
           minikube start --driver=none
           kubectl apply -f ./loginapi-deployment.yml
           kubectl expose deployment loginapi-deployment --type=LoadBalancer --name=loginapi --port 80 --target-port=5000 --external-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
