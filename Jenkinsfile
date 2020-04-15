@@ -59,7 +59,7 @@ pipeline {
                 script {
                     try {
                         sh './aws/create.sh loginapi-net aws/loginapi-network.yml aws/loginapi-network-params.json'
-                        sh './aws/create.sh loginapi-web aws/loginapi-server.yml aws/loginapi-servers-params.json'
+                        sh './aws/create.sh loginapi-web aws/loginapi-servers.yml aws/loginapi-servers-params.json'
                     }
                     catch(err) {
                         echo 'CF Stack already deployed, now updating cluster.'
