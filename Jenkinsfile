@@ -53,5 +53,19 @@ pipeline {
                 }
             }
         }
+        stage('Deploy API on AWS') {
+            steps {
+                sh 'chmod +x ./aws/create.sh'
+                script {
+                    try {
+                        sh './aws/create.sh loginapi-net loginapi-network.yml loginapi-network-params.json'
+                        sh './aws/create.sh loginapi-web loginapi-server.yml loginapi-servers-params.json'
+                    }
+                    catch(err) {
+                        echo 'CF Stack already deployed, now updating cluster.'
+                    }
+                }
+            }
+        }
     }
 }
