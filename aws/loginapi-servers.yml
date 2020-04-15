@@ -72,6 +72,12 @@ Resources:
         FromPort: 0
         ToPort: 65535
         CidrIp: 0.0.0.0/0
+  #IAM Role Instance Profile
+  ReadProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: RoleName
   #LaunchConfig
   WebAppLaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
@@ -80,8 +86,10 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash
           apt update
+          apt-get install -y unzip awscli
           apt install docker.io -y
           apt install conntrack -y
+          aws s3 sync ${BucketName} .
           systemctl enable docker
           systemctl start docker
           curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
@@ -90,10 +98,10 @@ Resources:
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_1.9.1-0_amd64.deb
           dpkg -i minikube_1.9.1-0_amd64.deb
           minikube start --driver=none
-          kubectl run loginapi --image=xwindwolfx/login-api:latest --port=80 --labels app=login-api
-          kubectl port-forward loginapi 80:5000
+          kubectl apply -f ./loginapi-deployment.yml
       ImageId: !Ref OSImage
       KeyName: '{{resolve:ssm:EC2KEY:1}}'
+      IamInstanceProfile: !Ref ReadProfile
       SecurityGroups:
       - Ref: WebServerSecGroup
       InstanceType: !Ref InstanceSize

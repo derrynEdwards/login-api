@@ -10,5 +10,13 @@
     {
         "ParameterKey": "InstanceSize",
         "ParameterValue": "t2.medium"
+    },
+    {
+        "ParameterKey": "RoleName",
+        "ParameterValue": "UdagramReadOnlyEC2"
+    },
+    {
+        "ParameterKey": "BucketName",
+        "ParameterValue": "s3://login-api/"
     }
 ]
