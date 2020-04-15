@@ -20,6 +20,14 @@ Parameters:
     Type: String
     Default: "t2.medium"
 
+  RoleName:
+    Description: Single Parameter containing the IAM Role Name.
+    Type: String
+
+  BucketName:
+    Description: Single Parameter containing the S3 Bucker URI
+    Type: String
+
 Resources:
   #Security Groups
   LBSecGroup:
@@ -89,6 +97,7 @@ Resources:
           apt-get install -y unzip awscli
           apt install docker.io -y
           apt install conntrack -y
+          cd ~
           aws s3 sync ${BucketName} .
           systemctl enable docker
           systemctl start docker
@@ -116,7 +125,7 @@ Resources:
     Properties:
       VPCZoneIdentifier:
       - Fn::ImportValue:
-          !Sub ${EnvironmentName}-PRIV-NETS
+          !Sub ${EnvironmentName}-PUB-NETS
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
       MinSize: '4'
