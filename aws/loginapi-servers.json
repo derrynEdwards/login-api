@@ -1,0 +1,22 @@
+[
+    {
+        "ParameterKey": "EnvironmentName",
+        "ParameterValue": "UdagramPoject"
+    },
+    {
+        "ParameterKey": "OSImage",
+        "ParameterValue": "ami-0d1cd67c26f5fca19"
+    },
+    {
+        "ParameterKey": "InstanceSize",
+        "ParameterValue": "t2.medium"
+    },
+    {
+        "ParameterKey": "RoleName",
+        "ParameterValue": "UdagramReadOnlyEC2"
+    },
+    {
+        "ParameterKey": "BucketName",
+        "ParameterValue": "s3://udagram-derryn/"
+    }
+]
