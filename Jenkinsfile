@@ -58,8 +58,8 @@ pipeline {
                 sh 'chmod +x ./aws/create.sh'
                 script {
                     try {
-                        sh './aws/create.sh loginapi-net loginapi-network.yml loginapi-network-params.json'
-                        sh './aws/create.sh loginapi-web loginapi-server.yml loginapi-servers-params.json'
+                        sh './aws/create.sh loginapi-net aws/loginapi-network.yml aws/loginapi-network-params.json'
+                        sh './aws/create.sh loginapi-web aws/loginapi-server.yml aws/loginapi-servers-params.json'
                     }
                     catch(err) {
                         echo 'CF Stack already deployed, now updating cluster.'
