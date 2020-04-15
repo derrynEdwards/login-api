@@ -2,7 +2,7 @@ Description: >
   Derryn Edwards / AWS Microservice EKS CF Stack
   This script creates an AutoScaling group for a bastion host
   in each Availability Zone and worker nodes for Kubernetes
-  (two in each AZ) and deploys a LoadBalancer. Deploys the
+  (one in each AZ) and deploys a LoadBalancer. Deploys the
   Kubernetes cluster.
 
 Parameters:
