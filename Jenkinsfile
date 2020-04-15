@@ -32,6 +32,14 @@ pipeline {
                 sh 'hadolint Dockerfile'
             }
         }
+        stage('Copy Config Files to S3 Bucket') {
+            steps {
+                withAWS(region:'us-west-2',credentials:'AWS Jenkins') {
+                    sh 'echo "Uploading content with AWS creds"'
+                    s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'aws/config/*', bucket:'login-api')
+                }
+            }
+        }
         stage('Build and Push Docker Image') {
             steps {
                 echo 'Starting to build docker image'
