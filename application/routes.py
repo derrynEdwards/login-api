@@ -3,9 +3,17 @@ from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User
 
+@app.route('/', methods=['GET'])
+def keepalive():
+    """
+        Keepalive to ensure the app is running.
+    """
+    return str(dt.now())
+
 @app.route('/api/createuser', methods=['POST'])
 def create_user():
-    """ API Endpoint that will receive a POST request to create a user.
+    """ 
+        API Endpoint that will receive a POST request to create a user.
         Requires:
             username - String
             password - String
