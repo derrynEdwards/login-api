@@ -181,6 +181,11 @@ Resources:
     Properties:
       RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
+  ControlPlaneSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Cluster communication with worker nodes
+      VpcId: !Ref VPC
 
 #Outputs
 Outputs:
@@ -243,4 +248,8 @@ Outputs:
     Value: !Ref PrivateSubnet2
     Export:
         Name: !Sub ${EnvironmentName}-PRI2-SN
+
+  SecurityGroups:
+    Description: Security group for the cluster control plane communication with worker nodes
+    Value: !Join [ ",", [ !Ref ControlPlaneSecurityGroup ] ]
   
