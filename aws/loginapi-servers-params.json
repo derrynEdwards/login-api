@@ -1,7 +1,7 @@
 [
     {
         "ParameterKey": "EnvironmentName",
-        "ParameterValue": "UdagramPoject"
+        "ParameterValue": "LoginAPI"
     },
     {
         "ParameterKey": "OSImage",
@@ -13,10 +13,10 @@
     },
     {
         "ParameterKey": "RoleName",
-        "ParameterValue": "UdagramReadOnlyEC2"
+        "ParameterValue": "BastionRole"
     },
     {
-        "ParameterKey": "BucketName",
-        "ParameterValue": "s3://udagram-derryn/"
+        "ParameterKey": "ClusterName",
+        "ParameterValue": "LoginAPI"
     }
 ]

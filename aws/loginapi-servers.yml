@@ -1,8 +1,9 @@
 Description: >
-  Derryn Edwards / Udacity DevOps Engineer ND Project
-  This script creates an AutoScaling group of the 
-  web applications (two in each AZ) and deploys a LoadBalancer
-  that will set the AutoScaling WebApps as a TargetGroup.
+  Derryn Edwards / AWS Microservice EKS CF Stack
+  This script creates an AutoScaling group for a bastion host
+  in each Availability Zone and worker nodes for Kubernetes
+  (two in each AZ) and deploys a LoadBalancer. Deploys the
+  Kubernetes cluster.
 
 Parameters:
   EnvironmentName:
@@ -23,11 +24,27 @@ Parameters:
     Description: Single Parameter containing the IAM Role Name.
     Type: String
 
-  BucketName:
-    Description: Single Parameter containing the S3 Bucker URI
+  ClusterName:
+    Description: Single Parameter containing the Kubernetes Cluster Name.
     Type: String
 
 Resources:
+  #EKS Role
+  eksServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - eks.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
   #Security Groups
   LBSecGroup:
     Type: AWS::EC2::SecurityGroup
