@@ -32,44 +32,5 @@ pipeline {
                 sh 'hadolint Dockerfile'
             }
         }
-        stage('Copy Config Files to S3 Bucket') {
-            steps {
-                withAWS(region:'us-west-2',credentials:'AWS Jenkins') {
-                    sh 'echo "Uploading content with AWS creds"'
-                    s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'aws/config/', bucket:'login-api')
-                }
-            }
-        }
-        stage('Build and Push Docker Image') {
-            steps {
-                echo 'Starting to build docker image'
-                sh 'cp .env-sample .env'
-                script {
-                    def dockerImage = docker.build(image_repo)
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        dockerImage.push("1.0.$BUILD_NUMBER")
-                        dockerImage.push("latest")
-                    }
-                }
-            }
-        }
-        stage('Deploy API on AWS') {
-            steps {
-                sh 'chmod +x ./aws/create.sh'
-                script {
-                    try {
-                        try {
-                            sh './aws/create.sh loginapi-net aws/loginapi-network.yml aws/loginapi-network-params.json'
-                        }
-                        catch(err) {
-                            sh './aws/create.sh loginapi-web aws/loginapi-servers.yml aws/loginapi-servers-params.json'
-                        }  
-                    }
-                    catch(err) {
-                        echo 'CF Stack already deployed, now updating cluster.'
-                    }
-                }
-            }
-        }
     }
 }
