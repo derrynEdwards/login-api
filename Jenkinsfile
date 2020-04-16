@@ -32,5 +32,18 @@ pipeline {
                 sh 'hadolint Dockerfile'
             }
         }
+        stage('Build and Push Docker Image') {
+            steps {
+                echo 'Starting to build docker image'
+                sh 'cp .env-sample .env'
+                script {
+                    def dockerImage = docker.build(image_repo)
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        dockerImage.push("1.0.$BUILD_NUMBER")
+                        dockerImage.push("latest")
+                    }
+                }
+            }
+        }
     }
 }
