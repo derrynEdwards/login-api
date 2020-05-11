@@ -2,6 +2,7 @@ from flask import request, jsonify
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User
+from .response import response
 
 @app.route('/', methods=['GET'])
 def keepalive():
@@ -51,9 +52,11 @@ def auth_user():
     password = request.json.get('password')
 
     if username is None or password is None:
-        return (jsonify({'status': 'Failed', 'error': 'Incomplete or No parameters received.'}), 400)
+        #return (jsonify({'status': 'Failed', 'data': None, 'error': 'Incomplete or No parameters received.'}), 400)
+        return (response(False, None, "Incomplete or No parameters received."), 400)
     if User.query.filter_by(username=username, password=password).first() is not None:
-        return (jsonify({'status': 'Success', 'username': username, 'logged_in': True}), 200)
+        #return (jsonify({'status': 'Success', 'data': {'username': username, 'logged_in': True}, 'message': ''}), 200)
+        return (response(True, {"username": username, "logged_in": True}, ""), 200)
     else:
-        return(jsonify({'status': 'Failed', 'logged_in': False, 'error': 'Invalid username or password.'}), 400)
-    
+        #return(jsonify({'status': 'Failed', 'data': {'logged_in': False}, 'error': 'Invalid username or password.'}), 400)
+        return (response(False, {"logged_in": False}, "Invalid username or password."), 400)
