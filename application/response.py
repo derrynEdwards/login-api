@@ -2,7 +2,7 @@ from flask import jsonify
 
 def response(status, data=None, message=None):
     '''
-        Returns an error response in json format.
+        Generates a response in json format.
         Params:
             - status bool: True or False
             - data dict: Dictionary with data required as an api response
