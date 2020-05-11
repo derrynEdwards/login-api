@@ -1,6 +1,6 @@
 from flask import jsonify
 
-def response(status, data, message):
+def response(status, data=None, message=None):
     '''
         Returns an error response in json format.
         Params:
@@ -11,6 +11,6 @@ def response(status, data, message):
     '''
 
     if status:
-        return jsonify({"status": True, "data": data, "message": message})
+        return jsonify({"status": 'Success', "data": data, "message": message})
     else:
-        return jsonify({"status": False, "data": data, "error": message})
+        return jsonify({"status": 'Failed', "data": data, "error": message})
