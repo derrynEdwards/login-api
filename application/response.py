@@ -14,3 +14,4 @@ def response(status, data=None, message=None):
         return jsonify({"status": 'Success', "data": data, "message": message})
     else:
         return jsonify({"status": 'Failed', "data": data, "error": message})
+        
